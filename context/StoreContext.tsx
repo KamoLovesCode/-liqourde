@@ -20,11 +20,39 @@ interface StoreContextType {
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
+// Helper to safely parse JSON from localStorage
+const getInitialState = <T>(key: string, defaultValue: T): T => {
+  try {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : defaultValue;
+  } catch (error) {
+    console.error(`Error parsing state from localStorage for key "${key}":`, error);
+    return defaultValue;
+  }
+};
+
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
-  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
-  const [config, setConfig] = useState<StoreConfig>(INITIAL_CONFIG);
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [products, setProducts] = useState<Product[]>(() => getInitialState('spiritflow_products', INITIAL_PRODUCTS));
+  const [orders, setOrders] = useState<Order[]>(() => getInitialState('spiritflow_orders', INITIAL_ORDERS));
+  const [config, setConfig] = useState<StoreConfig>(() => getInitialState('spiritflow_config', INITIAL_CONFIG));
+  const [cart, setCart] = useState<CartItem[]>(() => getInitialState('spiritflow_cart', []));
+
+  // Save state to local storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('spiritflow_products', JSON.stringify(products));
+  }, [products]);
+
+  useEffect(() => {
+    localStorage.setItem('spiritflow_orders', JSON.stringify(orders));
+  }, [orders]);
+
+  useEffect(() => {
+    localStorage.setItem('spiritflow_config', JSON.stringify(config));
+  }, [config]);
+
+  useEffect(() => {
+    localStorage.setItem('spiritflow_cart', JSON.stringify(cart));
+  }, [cart]);
 
   const addProduct = (product: Omit<Product, 'id'>) => {
     const newId = Math.max(...products.map(p => p.id), 0) + 1;

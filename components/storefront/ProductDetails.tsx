@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStore } from '../../context/StoreContext';
 import { Plus, Check, ChevronRight, Truck, Box, Tag } from '../common/Icons';
-import { CURRENCY } from '../../constants';
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +21,7 @@ const ProductDetails: React.FC = () => {
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <h2 className="text-2xl font-bold text-gray-900">Product not found</h2>
+        <h2 className="font-serif text-2xl font-bold text-gray-900">Product not found</h2>
         <button 
           onClick={() => navigate('/')}
           className="mt-4 text-blue-600 hover:underline"
@@ -84,9 +83,9 @@ const ProductDetails: React.FC = () => {
             <h1 className="font-serif text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
             
             <div className="flex items-end gap-3 mb-6">
-              <span className="text-3xl font-bold" style={{ color: config.primaryColor }}>{CURRENCY}{product.price.toFixed(2)}</span>
+              <span className="text-3xl font-bold" style={{ color: config.primaryColor }}>{config.currency}{product.price.toFixed(2)}</span>
               {product.comparePrice && (
-                <span className="text-xl text-gray-400 line-through mb-1">{CURRENCY}{product.comparePrice.toFixed(2)}</span>
+                <span className="text-xl text-gray-400 line-through mb-1">{config.currency}{product.comparePrice.toFixed(2)}</span>
               )}
             </div>
 
@@ -150,7 +149,7 @@ const ProductDetails: React.FC = () => {
               
               <div className="flex items-center gap-2 text-sm text-green-600">
                 <Truck size={16} />
-                <span>Free delivery on orders over {CURRENCY}50</span>
+                <span>Free delivery on orders over {config.currency}50</span>
               </div>
             </div>
           </div>
@@ -170,8 +169,8 @@ const ProductDetails: React.FC = () => {
                    <img src={rp.image} alt={rp.name} className="w-full h-full object-cover mix-blend-multiply" />
                 </div>
                 <div className="p-4">
-                   <h4 className="font-bold text-gray-900 mb-1">{rp.name}</h4>
-                   <p className="text-gray-500 text-sm mb-3">{CURRENCY}{rp.price.toFixed(2)}</p>
+                   <h4 className="font-serif font-bold text-gray-900 mb-1">{rp.name}</h4>
+                   <p className="text-gray-500 text-sm mb-3">{config.currency}{rp.price.toFixed(2)}</p>
                 </div>
               </div>
             ))}

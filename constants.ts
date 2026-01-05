@@ -1,10 +1,10 @@
 import { Product, Order, StoreConfig, PrimaryColorPreset } from './types';
 
-export const CURRENCY = '$';
+// Removed global CURRENCY constant - now managed via StoreConfig
 
 export const INITIAL_CONFIG: StoreConfig = {
   storeName: "SpiritFlow Liquors",
-  currency: "$",
+  currency: "£", // Default currency symbol
   primaryColor: PrimaryColorPreset.Navy,
   layout: 'grid',
   heroImage: "https://images.unsplash.com/photo-1569937756447-e24e5256e409?auto=format&fit=crop&q=80&w=2000",
@@ -23,7 +23,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 45.99,
     stock: 24,
     sku: "WHK-001",
-    image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Golden+Reserve",
+    image: "https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&q=80&w=400",
     description: "A smooth, aged whiskey with notes of vanilla and oak.",
     abv: 40,
     volume: "750ml",
@@ -38,7 +38,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     comparePrice: 38.00,
     stock: 12,
     sku: "GIN-002",
-    image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Coastal+Gin",
+    image: "https://images.unsplash.com/photo-1563223771-332305545f74?auto=format&fit=crop&q=80&w=400",
     description: "Botanical gin distilled with coastal herbs.",
     abv: 42,
     volume: "750ml",
@@ -52,7 +52,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 12.99,
     stock: 100,
     sku: "BER-003",
-    image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Craft+IPA",
+    image: "https://images.unsplash.com/photo-1623594225324-42721869e94d?auto=format&fit=crop&q=80&w=400",
     description: "Hoppy and refreshing local craft brew.",
     abv: 6.5,
     volume: "6 x 355ml",
@@ -66,7 +66,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 28.00,
     stock: 8,
     sku: "WIN-004",
-    image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Vintage+Red",
+    image: "https://images.unsplash.com/photo-1559563362-c667ba5f5480?auto=format&fit=crop&q=80&w=400",
     description: "Full-bodied red wine from Napa Valley.",
     abv: 13.5,
     volume: "750ml",
@@ -80,7 +80,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 49.99,
     stock: 18,
     sku: "TEQ-005",
-    image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Silver+Tequila",
+    image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&q=80&w=400",
     description: "Crisp agave tequila perfect for margaritas.",
     abv: 40,
     volume: "750ml",
@@ -94,7 +94,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 9.99,
     stock: 150,
     sku: "BER-006",
-    image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Japanese+Lager",
+    image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&q=80&w=400",
     description: "Dry and crisp rice lager.",
     abv: 5.0,
     volume: "6 x 330ml",
@@ -118,14 +118,14 @@ export const INITIAL_ORDERS: Order[] = [
         name: "Golden Reserve Whiskey", 
         price: 45.99, 
         quantity: 1, 
-        image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Golden+Reserve" 
+        image: "https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&q=80&w=400" 
       },
       { 
         productId: 3, 
         name: "Craft IPA 6-Pack", 
         price: 12.99, 
         quantity: 1, 
-        image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Craft+IPA" 
+        image: "https://images.unsplash.com/photo-1623594225324-42721869e94d?auto=format&fit=crop&q=80&w=400" 
       }
     ]
   },
@@ -144,7 +144,7 @@ export const INITIAL_ORDERS: Order[] = [
         name: "Coastal Gin", 
         price: 32.50, 
         quantity: 1, 
-        image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Coastal+Gin" 
+        image: "https://images.unsplash.com/photo-1563223771-332305545f74?auto=format&fit=crop&q=80&w=400" 
       }
     ]
   },
@@ -163,7 +163,7 @@ export const INITIAL_ORDERS: Order[] = [
         name: "Vintage Cabernet", 
         price: 28.00, 
         quantity: 1, 
-        image: "https://placehold.co/600x600/e2e8f0/1e293b?text=Vintage+Red" 
+        image: "https://images.unsplash.com/photo-1559563362-c667ba5f5480?auto=format&fit=crop&q=80&w=400" 
       }
     ]
   }

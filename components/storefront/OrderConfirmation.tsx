@@ -24,7 +24,7 @@ const OrderConfirmation: React.FC = () => {
         </div>
         
         <div className="p-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
+            <h1 className="font-serif text-2xl font-bold text-gray-900 mb-2">Order Confirmed!</h1>
             <p className="text-gray-500 mb-6">
                 Thank you for your purchase. We've received your order and will begin processing it shortly.
             </p>

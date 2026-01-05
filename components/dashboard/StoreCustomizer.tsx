@@ -14,7 +14,7 @@ const StoreCustomizer: React.FC = () => {
       {/* Settings Panel */}
       <div className="w-full lg:w-96 bg-white rounded-xl border border-gray-100 shadow-sm overflow-y-auto flex-shrink-0">
         <div className="p-5 border-b border-gray-100">
-            <h2 className="text-lg font-bold text-gray-900">Design & Theme</h2>
+            <h2 className="font-serif text-lg font-bold text-gray-900">Design & Theme</h2>
             <p className="text-sm text-gray-500">Customize your storefront appearance.</p>
         </div>
         
@@ -42,7 +42,7 @@ const StoreCustomizer: React.FC = () => {
                             type="text" 
                             value={config.primaryColor}
                             onChange={(e) => updateConfig({ primaryColor: e.target.value })}
-                            className="flex-1 px-3 py-1.5 text-sm border border-gray-200 rounded-md font-mono"
+                            className="w-full px-3 py-1.5 text-sm border border-gray-200 rounded-lg text-sm font-mono"
                         />
                     </div>
                 </div>
@@ -157,7 +157,7 @@ const StoreCustomizer: React.FC = () => {
 
                 {/* Mock Products */}
                 <div className="p-4 bg-gray-50 flex-1 overflow-hidden">
-                    <h3 className="font-bold text-gray-900 mb-3 text-sm">Featured Collection</h3>
+                    <h3 className="font-serif font-bold text-gray-900 mb-3 text-sm">Featured Collection</h3>
                     <div className={`grid gap-3 ${config.layout === 'grid' ? 'grid-cols-2' : 'grid-cols-1'}`}>
                         {[1, 2, 3, 4].map(i => (
                              <div key={i} className={`bg-white p-3 rounded-lg shadow-sm border border-gray-100 ${config.layout === 'list' ? 'flex gap-3 items-center' : ''}`}>

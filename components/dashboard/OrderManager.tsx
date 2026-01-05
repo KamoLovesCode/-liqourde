@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { Order } from '../../types';
 import { Search, Filter, Eye, Clock, Calendar, Check, X, Truck, ChevronRight } from '../common/Icons';
-import { CURRENCY } from '../../constants';
 
 const OrderManager: React.FC = () => {
   const { orders, updateOrderStatus, config } = useStore();
@@ -46,7 +45,7 @@ const OrderManager: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div>
-           <h1 className="text-2xl font-bold text-gray-900">Orders</h1>
+           <h1 className="font-serif text-2xl font-bold text-gray-900">Orders</h1>
            <p className="text-gray-500">Manage customer orders and shipments.</p>
         </div>
         <div className="flex gap-2">
@@ -118,7 +117,7 @@ const OrderManager: React.FC = () => {
                                 </div>
                             </td>
                             <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                                {CURRENCY}{order.total.toFixed(2)}
+                                {config.currency}{order.total.toFixed(2)}
                             </td>
                             <td className="px-6 py-4">
                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
@@ -155,13 +154,14 @@ const OrderManager: React.FC = () => {
             onClose={() => setSelectedOrder(null)} 
             onUpdateStatus={updateOrderStatus}
             primaryColor={config.primaryColor}
+            currency={config.currency}
         />
       )}
     </div>
   );
 };
 
-const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor }: { order: Order, onClose: () => void, onUpdateStatus: (id: string, status: Order['status']) => void, primaryColor: string }) => {
+const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor, currency }: { order: Order, onClose: () => void, onUpdateStatus: (id: string, status: Order['status']) => void, primaryColor: string, currency: string }) => {
     const [status, setStatus] = useState<Order['status']>(order.status);
 
     const handleSave = () => {
@@ -177,7 +177,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor }: { o
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-20">
                     <div>
                         <div className="flex items-center gap-3">
-                            <h2 className="text-xl font-bold text-gray-900">Order {order.id}</h2>
+                            <h2 className="font-serif text-xl font-bold text-gray-900">Order {order.id}</h2>
                             <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                 status === 'delivered' ? 'bg-green-100 text-green-800' : 
                                 status === 'cancelled' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
@@ -241,16 +241,16 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor }: { o
                                                     <span className="text-sm font-medium text-gray-900">{item.name}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-3 text-sm text-gray-600 text-right">{CURRENCY}{item.price.toFixed(2)}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-600 text-right">{currency}{item.price.toFixed(2)}</td>
                                             <td className="px-4 py-3 text-sm text-gray-600 text-right">{item.quantity}</td>
-                                            <td className="px-4 py-3 text-sm font-medium text-gray-900 text-right">{CURRENCY}{(item.price * item.quantity).toFixed(2)}</td>
+                                            <td className="px-4 py-3 text-sm font-medium text-gray-900 text-right">{currency}{(item.price * item.quantity).toFixed(2)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                                 <tfoot className="bg-gray-50">
                                     <tr>
                                         <td colSpan={3} className="px-4 py-3 text-sm font-bold text-gray-900 text-right">Total</td>
-                                        <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right" style={{ color: primaryColor }}>{CURRENCY}{order.total.toFixed(2)}</td>
+                                        <td className="px-4 py-3 text-sm font-bold text-gray-900 text-right" style={{ color: primaryColor }}>{currency}{order.total.toFixed(2)}</td>
                                     </tr>
                                 </tfoot>
                             </table>

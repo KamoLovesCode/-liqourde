@@ -35,7 +35,7 @@ const ProductManager: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div>
-           <h1 className="text-2xl font-bold text-gray-900">Products</h1>
+           <h1 className="font-serif text-2xl font-bold text-gray-900">Products</h1>
            <p className="text-gray-500">Manage your inventory and catalog.</p>
         </div>
         <button 
@@ -164,7 +164,7 @@ const ProductModal = ({ isOpen, onClose, product, onSave, config }: any) => {
         stock: 0,
         description: '',
         sku: '',
-        image: 'https://placehold.co/600x600/e2e8f0/1e293b?text=New+Product',
+        image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=400', // Default image placeholder
         abv: 0,
         volume: '',
         featured: false
@@ -183,7 +183,7 @@ const ProductModal = ({ isOpen, onClose, product, onSave, config }: any) => {
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose}></div>
             <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl relative z-10 max-h-[90vh] overflow-y-auto">
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white">
-                    <h2 className="text-xl font-bold text-gray-900">{product ? 'Edit Product' : 'Add New Product'}</h2>
+                    <h2 className="font-serif text-xl font-bold text-gray-900">{product ? 'Edit Product' : 'Add New Product'}</h2>
                     <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full"><X size={20}/></button>
                 </div>
                 <div className="p-6 space-y-6">

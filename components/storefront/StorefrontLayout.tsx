@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useStore } from '../../context/StoreContext';
 import { ShoppingCart, Search, Menu, User, X, ShoppingBag } from '../common/Icons';
-import { CURRENCY } from '../../constants';
 
 const StorefrontLayout: React.FC = () => {
   const { config, cart, removeFromCart } = useStore();
@@ -20,7 +19,7 @@ const StorefrontLayout: React.FC = () => {
     <div className="min-h-screen bg-white flex flex-col">
       {/* Top Bar */}
       <div className="bg-gray-900 text-white text-xs py-2 text-center px-4">
-        Free delivery on orders over {CURRENCY}50 • Verify age at delivery
+        Free delivery on orders over {config.currency}50 • Verify age at delivery
       </div>
 
       {/* Header */}
@@ -77,13 +76,13 @@ const StorefrontLayout: React.FC = () => {
       <footer className="bg-gray-900 text-gray-300 py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-                <h3 className="text-white font-serif font-bold text-xl mb-4">{config.storeName}</h3>
+                <h3 className="font-serif text-white font-bold text-xl mb-4">{config.storeName}</h3>
                 <p className="text-sm leading-relaxed opacity-80">
                     Premium liquor delivery service. Bringing the best spirits directly to your doorstep.
                 </p>
             </div>
             <div>
-                <h4 className="text-white font-bold mb-4">Shop</h4>
+                <h4 className="font-serif text-white font-bold mb-4">Shop</h4>
                 <ul className="space-y-2 text-sm">
                     <li><a href="#" className="hover:text-white transition-colors">Beer</a></li>
                     <li><a href="#" className="hover:text-white transition-colors">Wine</a></li>
@@ -92,7 +91,7 @@ const StorefrontLayout: React.FC = () => {
                 </ul>
             </div>
             <div>
-                <h4 className="text-white font-bold mb-4">Support</h4>
+                <h4 className="font-serif text-white font-bold mb-4">Support</h4>
                 <ul className="space-y-2 text-sm">
                     <li><a href="#" className="hover:text-white transition-colors">FAQ</a></li>
                     <li><a href="#" className="hover:text-white transition-colors">Shipping</a></li>
@@ -101,7 +100,7 @@ const StorefrontLayout: React.FC = () => {
                 </ul>
             </div>
             <div>
-                <h4 className="text-white font-bold mb-4">Contact</h4>
+                <h4 className="font-serif text-white font-bold mb-4">Contact</h4>
                 <p className="text-sm mb-2">{config.contactEmail}</p>
                 <p className="text-sm">{config.contactPhone}</p>
             </div>
@@ -117,7 +116,7 @@ const StorefrontLayout: React.FC = () => {
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsCartOpen(false)}></div>
             <div className="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl transform transition-transform duration-300 ease-in-out flex flex-col">
                 <div className="p-5 border-b border-gray-100 flex items-center justify-between">
-                    <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <h2 className="font-serif text-lg font-bold text-gray-900 flex items-center gap-2">
                         <ShoppingCart size={20} /> Your Cart
                     </h2>
                     <button onClick={() => setIsCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -146,7 +145,7 @@ const StorefrontLayout: React.FC = () => {
                                 </div>
                                 <div className="flex-1">
                                     <h4 className="font-medium text-gray-900 line-clamp-2">{item.name}</h4>
-                                    <p className="text-sm text-gray-500 mt-1">{CURRENCY}{item.price.toFixed(2)}</p>
+                                    <p className="text-sm text-gray-500 mt-1">{config.currency}{item.price.toFixed(2)}</p>
                                     <div className="flex items-center justify-between mt-2">
                                         <div className="text-sm text-gray-600">Qty: {item.quantity}</div>
                                         <button onClick={() => removeFromCart(item.productId)} className="text-xs text-red-500 hover:underline">Remove</button>
@@ -161,7 +160,7 @@ const StorefrontLayout: React.FC = () => {
                     <div className="p-6 border-t border-gray-100 bg-gray-50">
                         <div className="flex justify-between mb-4 text-sm">
                             <span className="text-gray-600">Subtotal</span>
-                            <span className="font-bold text-gray-900">{CURRENCY}{cartTotal.toFixed(2)}</span>
+                            <span className="font-bold text-gray-900">{config.currency}{cartTotal.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between mb-6 text-sm">
                             <span className="text-gray-600">Delivery</span>
@@ -172,7 +171,7 @@ const StorefrontLayout: React.FC = () => {
                             style={{ backgroundColor: config.primaryColor }}
                             onClick={handleCheckout}
                         >
-                            Checkout • {CURRENCY}{cartTotal.toFixed(2)}
+                            Checkout • {config.currency}{cartTotal.toFixed(2)}
                         </button>
                     </div>
                 )}

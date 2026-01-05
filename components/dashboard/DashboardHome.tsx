@@ -29,7 +29,7 @@ const DashboardHome: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <h1 className="font-serif text-2xl font-bold text-gray-900">Dashboard</h1>
             <p className="text-gray-500 mt-1">Here's what's happening in your store today.</p>
         </div>
         <button 
@@ -47,7 +47,7 @@ const DashboardHome: React.FC = () => {
             <div key={idx} className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm flex items-start justify-between">
                 <div>
                     <p className="text-gray-500 text-sm font-medium">{stat.title}</p>
-                    <h3 className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</h3>
+                    <h3 className="font-serif text-2xl font-bold text-gray-900 mt-1">{stat.value}</h3>
                     <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full mt-2 inline-block">
                         {stat.change} vs last week
                     </span>
@@ -62,7 +62,7 @@ const DashboardHome: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Chart */}
         <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-            <h3 className="text-lg font-bold text-gray-900 mb-6">Weekly Revenue</h3>
+            <h3 className="font-serif text-lg font-bold text-gray-900 mb-6">Weekly Revenue</h3>
             <div className="h-80 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChartWrapper data={chartData} color={primaryColor} />
@@ -72,7 +72,7 @@ const DashboardHome: React.FC = () => {
 
         {/* Recent Activity */}
         <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Recent Orders</h3>
+            <h3 className="font-serif text-lg font-bold text-gray-900 mb-4">Recent Orders</h3>
             <div className="flex-1 overflow-y-auto pr-2 space-y-4">
                 {orders.slice(0, 5).map(order => (
                     <div key={order.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../context/StoreContext';
 import { Check, CreditCard, Lock, MapPin, ChevronRight, AlertCircle, Trash2, Plus } from '../common/Icons';
-import { CURRENCY } from '../../constants';
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -75,7 +74,7 @@ const Checkout: React.FC = () => {
         <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Check size={32} className="text-gray-400" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
+        <h2 className="font-serif text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
         <p className="text-gray-500 mb-6">Looks like you haven't added any spirits yet.</p>
         <button 
           onClick={() => navigate('/')}
@@ -98,7 +97,7 @@ const Checkout: React.FC = () => {
             {/* Step 1: Contact & Shipping */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-                    <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <h2 className="font-serif text-lg font-bold text-gray-900 flex items-center gap-2">
                         <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs text-white ${step > 1 ? 'bg-green-500' : 'bg-gray-900'}`}>
                             {step > 1 ? <Check size={14} /> : '1'}
                         </span>
@@ -162,7 +161,7 @@ const Checkout: React.FC = () => {
             {/* Step 2: Payment */}
             <div className={`bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden ${step === 1 ? 'opacity-50 pointer-events-none' : ''}`}>
                 <div className="p-6 border-b border-gray-100">
-                    <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <h2 className="font-serif text-lg font-bold text-gray-900 flex items-center gap-2">
                         <span className="w-6 h-6 rounded-full bg-gray-900 text-white flex items-center justify-center text-xs">2</span>
                         Payment Method
                     </h2>
@@ -313,7 +312,7 @@ const Checkout: React.FC = () => {
                                     <>Processing Payment...</>
                                 ) : (
                                     <>
-                                        <Lock size={18} /> Pay {CURRENCY}{total.toFixed(2)}
+                                        <Lock size={18} /> Pay {config.currency}{total.toFixed(2)}
                                     </>
                                 )}
                             </button>
@@ -329,7 +328,7 @@ const Checkout: React.FC = () => {
         {/* Right Column: Order Summary */}
         <div className="lg:col-span-5">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
-                <h3 className="font-bold text-gray-900 text-lg mb-6">Order Summary</h3>
+                <h3 className="font-serif font-bold text-gray-900 text-lg mb-6">Order Summary</h3>
                 
                 <div className="space-y-4 max-h-80 overflow-y-auto mb-6 pr-2">
                     {cart.map((item, idx) => (
@@ -342,7 +341,7 @@ const Checkout: React.FC = () => {
                                 <p className="text-xs text-gray-500 mt-1">Qty: {item.quantity}</p>
                             </div>
                             <div className="text-sm font-medium text-gray-900">
-                                {CURRENCY}{(item.price * item.quantity).toFixed(2)}
+                                {config.currency}{(item.price * item.quantity).toFixed(2)}
                             </div>
                         </div>
                     ))}
@@ -351,19 +350,19 @@ const Checkout: React.FC = () => {
                 <div className="space-y-3 pt-6 border-t border-gray-100">
                     <div className="flex justify-between text-sm text-gray-600">
                         <span>Subtotal</span>
-                        <span>{CURRENCY}{subtotal.toFixed(2)}</span>
+                        <span>{config.currency}{subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-sm text-gray-600">
                         <span>Shipping</span>
-                        <span>{shipping === 0 ? <span className="text-green-600 font-medium">Free</span> : `${CURRENCY}${shipping.toFixed(2)}`}</span>
+                        <span>{shipping === 0 ? <span className="text-green-600 font-medium">Free</span> : `${config.currency}${shipping.toFixed(2)}`}</span>
                     </div>
                     <div className="flex justify-between text-sm text-gray-600">
                         <span>Estimated Tax (8%)</span>
-                        <span>{CURRENCY}{tax.toFixed(2)}</span>
+                        <span>{config.currency}{tax.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-lg font-bold text-gray-900 pt-3 border-t border-gray-100">
                         <span>Total</span>
-                        <span style={{ color: config.primaryColor }}>{CURRENCY}{total.toFixed(2)}</span>
+                        <span style={{ color: config.primaryColor }}>{config.currency}{total.toFixed(2)}</span>
                     </div>
                 </div>
             </div>

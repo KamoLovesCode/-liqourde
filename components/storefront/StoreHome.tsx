@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../context/StoreContext';
 import { ShoppingCart, Plus, Check } from '../common/Icons';
-import { CURRENCY } from '../../constants';
 
 const StoreHome: React.FC = () => {
   const { config, products, addToCart, cart } = useStore();
@@ -85,7 +84,7 @@ const StoreHome: React.FC = () => {
                         <div className="text-xs text-gray-500 mb-1">{product.category}</div>
                         <h3 
                             onClick={() => navigate(`/product/${product.id}`)}
-                            className="font-bold text-gray-900 text-lg mb-1 leading-tight cursor-pointer hover:text-gray-700 transition-colors"
+                            className="font-serif font-bold text-gray-900 text-lg mb-1 leading-tight cursor-pointer hover:text-gray-700 transition-colors"
                         >
                             {product.name}
                         </h3>
@@ -94,10 +93,10 @@ const StoreHome: React.FC = () => {
                         <div className="flex items-center justify-between mt-auto">
                             <div className="flex flex-col">
                                 {product.comparePrice && (
-                                    <span className="text-xs text-gray-400 line-through">{CURRENCY}{product.comparePrice.toFixed(2)}</span>
+                                    <span className="text-xs text-gray-400 line-through">{config.currency}{product.comparePrice.toFixed(2)}</span>
                                 )}
                                 <span className="text-lg font-bold text-gray-900" style={{ color: config.primaryColor }}>
-                                    {CURRENCY}{product.price.toFixed(2)}
+                                    {config.currency}{product.price.toFixed(2)}
                                 </span>
                             </div>
                             <button 
