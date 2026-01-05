@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// FIX: Affirm existing import for useStore to address "Module has no exported member" errors
 import { useStore } from '../../context/StoreContext';
 import { Product } from '../../types';
 import { Plus, Search, Filter, MoreVertical, Edit2, Trash2, ImageIcon, X } from '../common/Icons';
@@ -140,7 +141,7 @@ const ProductManager: React.FC = () => {
             isOpen={isModalOpen} 
             onClose={() => setIsModalOpen(false)} 
             product={editingProduct} 
-            onSave={(p) => {
+            onSave={(p: Product) => { // FIX: Explicitly type 'p' as Product
                 if (editingProduct) {
                     updateProduct(editingProduct.id, p);
                 } else {
@@ -155,7 +156,16 @@ const ProductManager: React.FC = () => {
   );
 };
 
-const ProductModal = ({ isOpen, onClose, product, onSave, config }: any) => {
+// FIX: Define explicit types for ProductModal props
+interface ProductModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    product: Product | null;
+    onSave: (product: Product) => void;
+    config: { currency: string, primaryColor: string };
+}
+
+const ProductModal = ({ isOpen, onClose, product, onSave, config }: ProductModalProps) => {
     const [formData, setFormData] = useState<Partial<Product>>(product || {
         name: '',
         category: 'Spirits',
@@ -170,7 +180,7 @@ const ProductModal = ({ isOpen, onClose, product, onSave, config }: any) => {
         featured: false
     });
 
-    const handleChange = (e: any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => { // FIX: Type e for handleChange
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
             ...prev,
@@ -237,7 +247,7 @@ const ProductModal = ({ isOpen, onClose, product, onSave, config }: any) => {
                 </div>
                 <div className="p-6 border-t border-gray-100 flex justify-end gap-3 sticky bottom-0 bg-white">
                     <button onClick={onClose} className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">Cancel</button>
-                    <button onClick={() => onSave(formData)} className="px-4 py-2 text-white rounded-lg shadow-sm hover:opacity-90" style={{ backgroundColor: config.primaryColor }}>Save Product</button>
+                    <button onClick={() => onSave(formData as Product)} className="px-4 py-2 text-white rounded-lg shadow-sm hover:opacity-90" style={{ backgroundColor: config.primaryColor }}>Save Product</button>
                 </div>
             </div>
         </div>

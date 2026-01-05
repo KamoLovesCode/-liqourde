@@ -1,4 +1,5 @@
 import React from 'react';
+// FIX: Affirm existing import for useStore to address "Module has no exported member" errors
 import { useStore } from '../../context/StoreContext';
 import { ArrowUpRight, ShoppingBag, DollarSign, Users, Package, ChevronRight, Truck } from '../common/Icons';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';

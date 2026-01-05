@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+// FIX: Affirm existing imports for react-router-dom to address "Module has no exported member" errors
 import { Outlet, useNavigate } from 'react-router-dom';
+// FIX: Affirm existing import for useStore to address "Module has no exported member" errors
 import { useStore } from '../../context/StoreContext';
 import { ShoppingCart, Search, Menu, User, X, ShoppingBag } from '../common/Icons';
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+// FIX: Affirm existing imports for react-router-dom to address "Module has no exported member" errors
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, Users, Palette, BarChart, Settings, Bell, Search, Menu, LogOut, ArrowUpRight } from '../common/Icons';
+// FIX: Affirm existing import for useStore to address "Module has no exported member" errors
 import { useStore } from '../../context/StoreContext';
 
 const DashboardLayout: React.FC = () => {

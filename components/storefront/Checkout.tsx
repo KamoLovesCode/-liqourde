@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../context/StoreContext';
-import { Check, CreditCard, Lock, MapPin, ChevronRight, AlertCircle, Trash2, Plus } from '../common/Icons';
+import { Check, CreditCard, Lock, MapPin, Plus } from '../common/Icons';
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AgeGate: React.FC<{ onVerify: () => void }> = ({ onVerify }) => {
   const [error, setError] = useState('');
 
   const handleEnter = () => {
+    // Simple check - in real app would check date
     localStorage.setItem('spiritflow_age_verified', 'true');
     onVerify();
   };

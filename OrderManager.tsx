@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { Order } from '../../types';
-import { Search, Eye, Clock, Calendar, Check, X, Truck } from '../common/Icons';
+import { Search, Filter, Eye, Clock, Calendar, Check, X, Truck, ChevronRight } from '../common/Icons';
 
 const OrderManager: React.FC = () => {
   const { orders, updateOrderStatus, config } = useStore();
@@ -31,6 +31,16 @@ const OrderManager: React.FC = () => {
     }
   };
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between gap-4">
@@ -46,6 +56,7 @@ const OrderManager: React.FC = () => {
         </div>
       </div>
 
+      {/* Toolbar */}
       <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between">
          <div className="relative w-full sm:w-96">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -57,7 +68,7 @@ const OrderManager: React.FC = () => {
                 className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 text-sm"
             />
          </div>
-         <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
+         <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto">
             {['All', 'pending', 'processing', 'out-for-delivery', 'delivered', 'cancelled'].map(status => (
                 <button
                     key={status}
@@ -75,6 +86,7 @@ const OrderManager: React.FC = () => {
          </div>
       </div>
 
+      {/* Table */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -127,12 +139,15 @@ const OrderManager: React.FC = () => {
         </div>
         {filteredOrders.length === 0 && (
             <div className="p-12 text-center text-gray-500">
-                <Search size={24} className="opacity-40 mx-auto mb-4" />
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Search size={24} className="opacity-40" />
+                </div>
                 <p>No orders found matching your criteria.</p>
             </div>
         )}
       </div>
 
+      {/* Order Details Modal */}
       {selectedOrder && (
         <OrderDetailsModal 
             order={selectedOrder} 
@@ -158,6 +173,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor, curre
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose}></div>
             <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl relative z-10 max-h-[90vh] overflow-y-auto flex flex-col">
+                {/* Header */}
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0 z-20">
                     <div>
                         <div className="flex items-center gap-3">
@@ -175,6 +191,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor, curre
                 </div>
 
                 <div className="p-6 space-y-8">
+                    {/* Customer & Shipping Info */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
                             <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3 flex items-center gap-2">
@@ -194,6 +211,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor, curre
                         </div>
                     </div>
 
+                    {/* Order Items */}
                     <div>
                         <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">Order Items</h3>
                         <div className="border border-gray-100 rounded-xl overflow-hidden">
@@ -211,9 +229,15 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor, curre
                                         <tr key={idx}>
                                             <td className="px-4 py-3">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded bg-gray-100 overflow-hidden flex-shrink-0">
-                                                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                                                    </div>
+                                                    {item.image ? (
+                                                        <div className="w-10 h-10 rounded bg-gray-100 overflow-hidden flex-shrink-0">
+                                                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                                        </div>
+                                                    ) : (
+                                                        <div className="w-10 h-10 rounded bg-gray-100 flex-shrink-0 flex items-center justify-center">
+                                                            <span className="text-xs text-gray-400">No Img</span>
+                                                        </div>
+                                                    )}
                                                     <span className="text-sm font-medium text-gray-900">{item.name}</span>
                                                 </div>
                                             </td>
@@ -233,6 +257,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus, primaryColor, curre
                         </div>
                     </div>
 
+                    {/* Status Management */}
                     <div className="pt-4 border-t border-gray-100">
                         <label className="block text-sm font-medium text-gray-700 mb-2">Update Order Status</label>
                         <div className="flex gap-3">

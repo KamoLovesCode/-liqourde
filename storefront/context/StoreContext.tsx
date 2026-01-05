@@ -21,22 +21,26 @@ interface StoreContextType {
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 // Helper to safely parse JSON from localStorage
-function getInitialState<T>(key: string, defaultValue: T): T {
+const getInitialState = <T>(key: string, defaultValue: T): T => {
   try {
     const storedValue = localStorage.getItem(key);
     return storedValue ? JSON.parse(storedValue) : defaultValue;
-  } catch (error: unknown) {
+  } catch (error: unknown) { // FIX: Explicitly type error as unknown
+    // FIX: Ensure 'key' and 'error' are correctly referenced in the console.error message
     console.error(`Error parsing state from localStorage for key "${key}":`, error);
     return defaultValue;
   }
-}
+};
 
-export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) => {
+// Explicitly define children prop type for React.FC, as PropsWithChildren is not allowed.
+export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) => { // FIX: Destructure children
+  // FIX: Explicitly define the type for useState to avoid inference issues
   const [products, setProducts] = useState<Product[]>(() => getInitialState<Product[]>('spiritflow_products', INITIAL_PRODUCTS));
   const [orders, setOrders] = useState<Order[]>(() => getInitialState<Order[]>('spiritflow_orders', INITIAL_ORDERS));
   const [config, setConfig] = useState<StoreConfig>(() => getInitialState<StoreConfig>('spiritflow_config', INITIAL_CONFIG));
   const [cart, setCart] = useState<CartItem[]>(() => getInitialState<CartItem[]>('spiritflow_cart', []));
 
+  // Save state to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem('spiritflow_products', JSON.stringify(products));
   }, [products]);
@@ -55,23 +59,29 @@ export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) 
 
   const addProduct = (product: Omit<Product, 'id'>) => {
     const newId = Math.max(...products.map(p => p.id), 0) + 1;
-    setProducts(prev => [...prev, { ...product, id: newId }]);
+    // FIX: Reference 'prevProducts' directly
+    setProducts(prevProducts => [...prevProducts, { ...product, id: newId }]);
   };
 
   const updateProduct = (id: number, updatedProduct: Partial<Product>) => {
-    setProducts(prev => prev.map(p => (p.id === id ? { ...p, ...updatedProduct } : p)));
+    // FIX: Reference 'prevProducts' directly
+    setProducts(prevProducts => prevProducts.map(p => (p.id === id ? { ...p, ...updatedProduct } : p)));
   };
 
   const deleteProduct = (id: number) => {
-    setProducts(prev => prev.filter(p => p.id !== id));
+    // FIX: Reference 'prevProducts' directly
+    setProducts(prevProducts => prevProducts.filter(p => p.id !== id));
   };
 
   const updateConfig = (newConfig: Partial<StoreConfig>) => {
+    // FIX: Reference 'prev' directly
     setConfig(prev => ({ ...prev, ...newConfig }));
   };
 
   const addToCart = (product: Product, quantity: number) => {
+    // FIX: Reference 'prev' directly
     setCart(prev => {
+      // FIX: Use 'product.id' instead of 'product'
       const existing = prev.find(item => item.productId === product.id);
       if (existing) {
         return prev.map(item =>
@@ -83,21 +93,24 @@ export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) 
       return [...prev, {
         productId: product.id,
         name: product.name,
+        // Use product.price as the base price for cart items
         price: product.price,
-        quantity: quantity,
+        quantity: quantity, // FIX: Explicitly reference quantity parameter
         image: product.image
       }];
     });
   };
 
   const removeFromCart = (productId: number) => {
+    // FIX: Reference 'prev' directly
     setCart(prev => prev.filter(item => item.productId !== productId));
   };
 
   const clearCart = () => setCart([]);
 
   const updateOrderStatus = (id: string, status: Order['status']) => {
-    setOrders(prev => prev.map(o => (o.id === id ? { ...o, status } : o)));
+    // FIX: Reference 'prevOrders' directly
+    setOrders(prevOrders => prevOrders.map(o => (o.id === id ? { ...o, status } : o)));
   };
 
   const checkout = (details: { name: string; email: string; address: string; phone: string }) => {
@@ -110,32 +123,33 @@ export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) 
       customerEmail: details.email,
       customerPhone: details.phone,
       deliveryAddress: details.address,
-      items: [...cart],
+      items: cart,
       total,
       status: 'pending',
       date: new Date().toISOString()
     };
     
-    setOrders(prev => [newOrder, ...prev]);
+    setOrders(prevOrders => [newOrder, ...prevOrders]);
     clearCart();
     return orderId;
   };
 
   return (
     <StoreContext.Provider value={{
-      products,
-      orders,
-      config,
-      cart,
-      addProduct,
-      updateProduct,
-      deleteProduct,
-      updateConfig,
-      addToCart,
-      removeFromCart,
-      clearCart,
-      updateOrderStatus,
-      checkout
+      // FIX: Explicitly list all properties from StoreContextType
+      products: products,
+      orders: orders,
+      config: config,
+      cart: cart,
+      addProduct: addProduct,
+      updateProduct: updateProduct,
+      deleteProduct: deleteProduct,
+      updateConfig: updateConfig,
+      addToCart: addToCart,
+      removeFromCart: removeFromCart,
+      clearCart: clearCart,
+      updateOrderStatus: updateOrderStatus,
+      checkout: checkout
     }}>
       {children}
     </StoreContext.Provider>

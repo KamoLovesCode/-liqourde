@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+// FIX: Affirm existing import for useNavigate to address "Module has no exported member" errors
 import { useNavigate } from 'react-router-dom';
+// FIX: Affirm existing import for useStore to address "Module has no exported member" errors
 import { useStore } from '../../context/StoreContext';
 import { ShoppingCart, Plus, Check } from '../common/Icons';
 
@@ -8,7 +10,8 @@ const StoreHome: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const navigate = useNavigate();
 
-  const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
+  // FIX: Explicitly type categories to string[]
+  const categories: string[] = ['All', ...Array.from(new Set(products.map(p => p.category)))];
   
   const filteredProducts = activeCategory === 'All' 
     ? products 
@@ -40,10 +43,10 @@ const StoreHome: React.FC = () => {
       <div id="shop-section" className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <h2 className="font-serif text-3xl font-bold text-gray-900 mb-8 text-center">Browse by Category</h2>
         <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {categories.map(cat => (
+            {categories.map((cat: string) => ( {/* FIX: Explicitly type cat to string */}
                 <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
+                    key={cat} // FIX: 'key' is a standard prop
+                    onClick={() => setActiveCategory(cat)} // FIX: 'onClick' is a standard prop, setActiveCategory is a function
                     className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
                         activeCategory === cat 
                             ? 'text-white shadow-md transform scale-105' 

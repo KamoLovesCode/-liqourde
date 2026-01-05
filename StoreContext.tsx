@@ -21,6 +21,7 @@ interface StoreContextType {
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 // Helper to safely parse JSON from localStorage
+// Changed to function declaration to avoid JSX generic parsing issues
 function getInitialState<T>(key: string, defaultValue: T): T {
   try {
     const storedValue = localStorage.getItem(key);
@@ -31,12 +32,14 @@ function getInitialState<T>(key: string, defaultValue: T): T {
   }
 }
 
+// Explicitly define children prop type for React.FC, as PropsWithChildren is not allowed.
 export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) => {
   const [products, setProducts] = useState<Product[]>(() => getInitialState<Product[]>('spiritflow_products', INITIAL_PRODUCTS));
   const [orders, setOrders] = useState<Order[]>(() => getInitialState<Order[]>('spiritflow_orders', INITIAL_ORDERS));
   const [config, setConfig] = useState<StoreConfig>(() => getInitialState<StoreConfig>('spiritflow_config', INITIAL_CONFIG));
   const [cart, setCart] = useState<CartItem[]>(() => getInitialState<CartItem[]>('spiritflow_cart', []));
 
+  // Save state to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem('spiritflow_products', JSON.stringify(products));
   }, [products]);
@@ -55,15 +58,15 @@ export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) 
 
   const addProduct = (product: Omit<Product, 'id'>) => {
     const newId = Math.max(...products.map(p => p.id), 0) + 1;
-    setProducts(prev => [...prev, { ...product, id: newId }]);
+    setProducts(prevProducts => [...prevProducts, { ...product, id: newId }]);
   };
 
   const updateProduct = (id: number, updatedProduct: Partial<Product>) => {
-    setProducts(prev => prev.map(p => (p.id === id ? { ...p, ...updatedProduct } : p)));
+    setProducts(prevProducts => prevProducts.map(p => (p.id === id ? { ...p, ...updatedProduct } : p)));
   };
 
   const deleteProduct = (id: number) => {
-    setProducts(prev => prev.filter(p => p.id !== id));
+    setProducts(prevProducts => prevProducts.filter(p => p.id !== id));
   };
 
   const updateConfig = (newConfig: Partial<StoreConfig>) => {
@@ -83,6 +86,7 @@ export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) 
       return [...prev, {
         productId: product.id,
         name: product.name,
+        // Use product.price as the base price for cart items
         price: product.price,
         quantity: quantity,
         image: product.image
@@ -97,55 +101,4 @@ export const StoreProvider: React.FC<{ children?: ReactNode }> = ({ children }) 
   const clearCart = () => setCart([]);
 
   const updateOrderStatus = (id: string, status: Order['status']) => {
-    setOrders(prev => prev.map(o => (o.id === id ? { ...o, status } : o)));
-  };
-
-  const checkout = (details: { name: string; email: string; address: string; phone: string }) => {
-    const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const orderId = `ORD-${Date.now().toString().slice(-6)}`;
-    
-    const newOrder: Order = {
-      id: orderId,
-      customerName: details.name,
-      customerEmail: details.email,
-      customerPhone: details.phone,
-      deliveryAddress: details.address,
-      items: [...cart],
-      total,
-      status: 'pending',
-      date: new Date().toISOString()
-    };
-    
-    setOrders(prev => [newOrder, ...prev]);
-    clearCart();
-    return orderId;
-  };
-
-  return (
-    <StoreContext.Provider value={{
-      products,
-      orders,
-      config,
-      cart,
-      addProduct,
-      updateProduct,
-      deleteProduct,
-      updateConfig,
-      addToCart,
-      removeFromCart,
-      clearCart,
-      updateOrderStatus,
-      checkout
-    }}>
-      {children}
-    </StoreContext.Provider>
-  );
-};
-
-export const useStore = () => {
-  const context = useContext(StoreContext);
-  if (context === undefined) {
-    throw new Error('useStore must be used within a StoreProvider');
-  }
-  return context;
-};
+    setOrders(prevOrders => prevOrders.map(o => (o.id
